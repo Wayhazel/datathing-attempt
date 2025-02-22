@@ -5,11 +5,11 @@
     "keywords": [],
     "main": "main.js",
     "dependencies": {
-      "react": "18.0.0",
+      "react": "19.0.0",
       "react-dom": "19.0.0",
       "react-scripts": "5.0.1",
       "react-spring": "9.7.5",
-      "react-three-fiber": "9.0.4",
+      "@react-three/fiber": "9.0.4",
       "three": "0.173.0"
     },
     "devDependencies": {
