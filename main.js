@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import WebGL from 'three/addons/capabilities/WebGL.js';
 
 if ( WebGL.isWebGL2Available() ) {
@@ -51,5 +52,17 @@ function animate() {
   controls.update();
   renderer.render(scene, camera);
 }
+
+const loader = new GLTFLoader();
+
+loader.load( 'path/to/model.glb', function ( gltf ) {
+
+	scene.add( gltf.scene );
+
+}, undefined, function ( error ) {
+
+	console.error( error );
+
+} );
 
 animate();
