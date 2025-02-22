@@ -1,6 +1,18 @@
 import * as THREE from 'three';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
+import WebGL from 'three/addons/capabilities/WebGL.js';
 
+if ( WebGL.isWebGL2Available() ) {
+
+	// Initiate function or other initializations here
+	animate();
+
+} else {
+
+	const warning = WebGL.getWebGL2ErrorMessage();
+	document.getElementById( 'container' ).appendChild( warning );
+
+}
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
