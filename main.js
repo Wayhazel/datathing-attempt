@@ -2,7 +2,9 @@ import * as THREE from 'three';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import WebGL from 'three/addons/capabilities/WebGL.js';
+import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 
+//WebGL Compatibility Check
 if ( WebGL.isWebGL2Available() ) {
 
 	// Initiate function or other initializations here
@@ -14,6 +16,25 @@ if ( WebGL.isWebGL2Available() ) {
 	document.getElementById( 'container' ).appendChild( warning );
 
 }
+
+//Text Geometry
+const textLoader = new FontLoader();
+
+textLoader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
+
+	const geometry = new TextGeometry( 'Hello three.js!', {
+		font: font,
+		size: 80,
+		depth: 5,
+		curveSegments: 12,
+		bevelEnabled: true,
+		bevelThickness: 10,
+		bevelSize: 8,
+		bevelOffset: 0,
+		bevelSegments: 5
+	} );
+} );
+
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
@@ -53,6 +74,7 @@ function animate() {
   renderer.render(scene, camera);
 }
 
+//Load 3D Model
 const loader = new GLTFLoader();
 
 loader.load( 'path/to/model.glb', function ( gltf ) {
