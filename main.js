@@ -3,16 +3,17 @@ import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
-import WebGL from 'three/addons/capabilities/WebGL.js';
+//import WebGL from 'three/addons/capabilities/WebGL.js';
 
 // WebGL Compatibility Check
+/*
 if (WebGL.isWebGL2Available()) {
   animate();
 } else {
   const warning = WebGL.getWebGL2ErrorMessage();
   document.getElementById('container').appendChild(warning);
 }
-
+*/
 // Fetch sample JSON data
 fetch('testData.json')
   .then(response => response.json())
