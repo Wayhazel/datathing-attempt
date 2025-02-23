@@ -1,2 +1,8 @@
 .venv/
-node_modules/
+node_modules
+pnpm-lock.yaml
+api/__pycache__/
+.vscode/
+*.csv
+dataorig.parquet
+data1000.parquet
