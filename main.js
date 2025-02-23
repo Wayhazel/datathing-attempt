@@ -14,7 +14,14 @@ if (WebGL.isWebGL2Available()) {
   document.getElementById('container').appendChild(warning);
 }
 */
+
+const minlon = -118.6676
+const minlat = 33.7059
+const maxlon = -118.1554;
+const maxlat = 34.3343;
+
 // Fetch sample JSON data
+/*
 fetch('testData.json')
   .then(response => response.json())
   .then(data => {
@@ -23,6 +30,51 @@ fetch('testData.json')
   .catch(error => {
     console.error('Error fetching or parsing JSON:', error);
   });
+*/
+
+function getBoxMaterial(row, col) {
+  const color = (row + col) % 2 === 0 ? 0x00ff00 : 0x00f500;
+  return new THREE.MeshPhongMaterial({ color: color }); // Return a new material with the selected color
+}
+
+function createBoxMatrix(rows, cols) {
+  const boxes = new THREE.Group(); // Create a group to hold all boxes
+  const boxGeometry = new THREE.BoxGeometry(0.5, 1, 0.5); // Base geometry
+  const boxMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 }); // Using PhongMaterial for better lighting
+
+  // Calculate spacing between boxes
+  const spacing = 0.5;
+  const offsetX = -(cols * spacing) / 2;
+  const offsetZ = -(rows * spacing) / 2;
+
+  // Create boxes in a grid
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      const box = new THREE.Mesh(boxGeometry, getBoxMaterial(i, j));
+      box.position.x = offsetX + j * spacing;
+      box.position.z = offsetZ + i * spacing;
+
+      // Store the box's index for later reference
+      box.userData.row = i;
+      box.userData.col = j;
+
+      boxes.add(box);
+    }
+  }
+
+  return boxes;
+}
+
+function updateBoxHeights(data) {
+  boxMatrix.children.forEach((box, index) => {
+    const row = box.userData.row;
+    const col = box.userData.col;
+    // Assuming data contains height values between 0 and 1
+    const height = data[row]?.[col] || 0;
+    box.scale.y = height * 0.1; // Adjust multiplier as needed
+    box.position.y = (height * 0.1); // Center the box vertically
+  });
+}
 
 // Set up scene, camera, and renderer
 const scene = new THREE.Scene();
@@ -32,17 +84,29 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Create a rotating cube
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+const rows = 20;
+const cols = 20;
+const boxMatrix = createBoxMatrix(rows, cols);
+scene.add(boxMatrix);
+
+const ambientLight = new THREE.AmbientLight(0x404040);
+scene.add(ambientLight);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(1, 1, 1);
+scene.add(directionalLight);
+
+const gridHelper = new THREE.GridHelper(20, 20);
+scene.add(gridHelper);
+
+// Creates an axes helper with an axis length of 4.
+const axesHelper = new THREE.AxesHelper(10);
+scene.add(axesHelper);
 
 camera.position.z = 5;
 
 // Create controls
 const controls = new TrackballControls(camera, renderer.domElement);
-controls.rotateSpeed = 1.0;
+controls.rotateSpeed = 5;
 controls.zoomSpeed = 1.2;
 controls.panSpeed = 0.8;
 
@@ -92,11 +156,8 @@ loader.load(
 );
 */
 
-// Animation loop
 function animate() {
   requestAnimationFrame(animate);
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
   controls.update();
   renderer.render(scene, camera);
 }
