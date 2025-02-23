@@ -17,6 +17,16 @@ if ( WebGL.isWebGL2Available() ) {
 
 }
 
+fetch('testData.json')
+.then(response => response.json()) // Parse the JSON in the response
+.then(data => {
+  // Handle the data here
+  
+})
+.catch(error => {
+  console.error('Error fetching or parsing JSON:', error);
+});
+
 //Text Geometry
 const textLoader = new FontLoader();
 
