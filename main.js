@@ -1,57 +1,37 @@
 import * as THREE from 'three';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 import WebGL from 'three/addons/capabilities/WebGL.js';
-import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 
-//WebGL Compatibility Check
-if ( WebGL.isWebGL2Available() ) {
-
-	// Initiate function or other initializations here
-	animate();
-
+// WebGL Compatibility Check
+if (WebGL.isWebGL2Available()) {
+  animate();
 } else {
-
-	const warning = WebGL.getWebGL2ErrorMessage();
-	document.getElementById( 'container' ).appendChild( warning );
-
+  const warning = WebGL.getWebGL2ErrorMessage();
+  document.getElementById('container').appendChild(warning);
 }
 
+// Fetch sample JSON data
 fetch('testData.json')
-.then(response => response.json()) // Parse the JSON in the response
-.then(data => {
-  // Handle the data here
-  
-})
-.catch(error => {
-  console.error('Error fetching or parsing JSON:', error);
-});
+  .then(response => response.json())
+  .then(data => {
+    console.log('Sample JSON Data:', data);
+  })
+  .catch(error => {
+    console.error('Error fetching or parsing JSON:', error);
+  });
 
-//Text Geometry
-const textLoader = new FontLoader();
-
-textLoader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
-
-	const geometry = new TextGeometry( 'Hello three.js!', {
-		font: font,
-		size: 80,
-		depth: 5,
-		curveSegments: 12,
-		bevelEnabled: true,
-		bevelThickness: 10,
-		bevelSize: 8,
-		bevelOffset: 0,
-		bevelSegments: 5
-	} );
-} );
-
+// Set up scene, camera, and renderer
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-const renderer = new THREE.WebGLRenderer();				
+const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+// Create a rotating cube
 const geometry = new THREE.BoxGeometry(1, 1, 1);
 const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 const cube = new THREE.Mesh(geometry, material);
@@ -74,27 +54,48 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
 });
 
+// Load and add text geometry
+const fontLoader = new FontLoader();
+
+fontLoader.load('fonts/helvetiker_regular.typeface.json', function (font) {
+  const textGeometry = new TextGeometry('Hello Three.js!', {
+    font: font,
+    size: 0.5,
+    height: 0.1,
+    curveSegments: 12,
+    bevelEnabled: true,
+    bevelThickness: 0.02,
+    bevelSize: 0.02,
+    bevelOffset: 0,
+    bevelSegments: 5,
+  });
+
+  const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+  const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+  textMesh.position.set(-1, 1, 0);
+  scene.add(textMesh);
+});
+
+// Load a 3D GLTF model
+const loader = new GLTFLoader();
+loader.load(
+  'path/to/model.glb',
+  function (gltf) {
+    scene.add(gltf.scene);
+  },
+  undefined,
+  function (error) {
+    console.error('Error loading model:', error);
+  }
+);
+
+// Animation loop
 function animate() {
   requestAnimationFrame(animate);
-
   cube.rotation.x += 0.01;
   cube.rotation.y += 0.01;
-
   controls.update();
   renderer.render(scene, camera);
 }
-
-//Load 3D Model
-const loader = new GLTFLoader();
-
-loader.load( 'path/to/model.glb', function ( gltf ) {
-
-	scene.add( gltf.scene );
-
-}, undefined, function ( error ) {
-
-	console.error( error );
-
-} );
 
 animate();
