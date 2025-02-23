@@ -34,16 +34,20 @@ fetch('testData.json')
 
 function getBoxMaterial(row, col) {
   const color = (row + col) % 2 === 0 ? 0x00ff00 : 0x00f500;
-  return new THREE.MeshPhongMaterial({ color: color }); // Return a new material with the selected color
+  return new THREE.MeshPhongMaterial({ 
+    color: color, 
+    transparent: true, // Enable transparency
+    opacity: 0.5 // Set the desired opacity (0.0 to 1.0)
+  });
 }
 
 function createBoxMatrix(rows, cols) {
   const boxes = new THREE.Group(); // Create a group to hold all boxes
-  const boxGeometry = new THREE.BoxGeometry(0.5, 1, 0.5); // Base geometry
+  const boxGeometry = new THREE.BoxGeometry(1, 1, 1); // Base geometry
   const boxMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 }); // Using PhongMaterial for better lighting
 
   // Calculate spacing between boxes
-  const spacing = 0.5;
+  const spacing = 1;
   const offsetX = -(cols * spacing) / 2;
   const offsetZ = -(rows * spacing) / 2;
 
@@ -84,9 +88,12 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-const rows = 20;
-const cols = 20;
+const rows = 40;
+const cols = 40;
 const boxMatrix = createBoxMatrix(rows, cols);
+boxMatrix.position.setX(0.5);
+boxMatrix.position.setZ(0.5);
+boxMatrix.position.setY(0.5);
 scene.add(boxMatrix);
 
 const ambientLight = new THREE.AmbientLight(0x404040);
@@ -95,14 +102,17 @@ const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight.position.set(1, 1, 1);
 scene.add(directionalLight);
 
-const gridHelper = new THREE.GridHelper(20, 20);
-scene.add(gridHelper);
+const gridaxes = new THREE.Group();
 
-// Creates an axes helper with an axis length of 4.
-const axesHelper = new THREE.AxesHelper(10);
-scene.add(axesHelper);
+const gridHelper = new THREE.GridHelper(rows, cols);
 
-camera.position.z = 5;
+scene.add(gridHelper)
+
+const axesHelper = new THREE.AxesHelper(40);
+
+gridaxes.add(axesHelper);
+
+camera.position.z = 50;
 
 // Create controls
 const controls = new TrackballControls(camera, renderer.domElement);
@@ -123,38 +133,50 @@ window.addEventListener('resize', () => {
 const fontLoader = new FontLoader();
 
 fontLoader.load('fonts/helvetiker_regular.typeface.json', function (font) {
-  const textGeometry = new TextGeometry('Hello Three.js!', {
-    font: font,
-    size: 0.5,
-    height: 0.1,
-    curveSegments: 12,
-    bevelEnabled: true,
-    bevelThickness: 0.02,
-    bevelSize: 0.02,
-    bevelOffset: 0,
-    bevelSegments: 5,
+  const lonGeometry = new TextGeometry("Longitude", {
+      font: font,
+      size: 2,
+      height: 0.1,
+      depth: 0.1,
+      curveSegments: 12,
+      bevelEnabled: false,
+    });
+
+    const latGeometry = new TextGeometry("Latitude", {
+      font: font,
+      size: 2,
+      height: 0.1,
+      depth: 0.1,
+      curveSegments: 12,
+      bevelEnabled: false,
+    });
+
+    const crmGeometry = new TextGeometry("Crimes", {
+      font: font,
+      size: 2,
+      height: 0.1,
+      depth: 0.1,
+      curveSegments: 12,
+      bevelEnabled: false,
+    });
+
+    const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    const lonMesh = new THREE.Mesh(lonGeometry, textMaterial);
+    lonMesh.position.set(rows/2, 5, 0);
+    gridaxes.add(lonMesh);
+
+    const latMesh = new THREE.Mesh(latGeometry, textMaterial);
+    latMesh.position.set(-10, 5, cols/2);
+    gridaxes.add(latMesh);
+
+    const crmMesh = new THREE.Mesh(crmGeometry, textMaterial);
+    crmMesh.position.set(0, 10, -0);
+    gridaxes.add(crmMesh);
   });
 
-  const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-  const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-  textMesh.position.set(-1, 1, 0);
-  scene.add(textMesh);
-});
+gridaxes.position.set(-rows/2, 0, -cols/2);
 
-// Load a 3D GLTF model
-/*
-const loader = new GLTFLoader();
-loader.load(
-  'path/to/model.glb',
-  function (gltf) {
-    scene.add(gltf.scene);
-  },
-  undefined,
-  function (error) {
-    console.error('Error loading model:', error);
-  }
-);
-*/
+scene.add(gridaxes);
 
 function animate() {
   requestAnimationFrame(animate);
