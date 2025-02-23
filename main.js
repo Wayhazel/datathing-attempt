@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+//import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 //import WebGL from 'three/addons/capabilities/WebGL.js';
@@ -78,6 +78,7 @@ fontLoader.load('fonts/helvetiker_regular.typeface.json', function (font) {
 });
 
 // Load a 3D GLTF model
+/*
 const loader = new GLTFLoader();
 loader.load(
   'path/to/model.glb',
@@ -89,6 +90,7 @@ loader.load(
     console.error('Error loading model:', error);
   }
 );
+*/
 
 // Animation loop
 function animate() {

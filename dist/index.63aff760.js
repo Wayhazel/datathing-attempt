@@ -142,9 +142,9 @@
       this[globalName] = mainExports;
     }
   }
-})({"4ZF0U":[function(require,module,exports,__globalThis) {
-var Refresh = require("91753c7f54f2857e");
-var ErrorOverlay = require("b224bd69b3973d71");
+})({"bVLoF":[function(require,module,exports,__globalThis) {
+var Refresh = require("c9f8b3c0d1fe9dab");
+var ErrorOverlay = require("3dad88c23728e6e3");
 window.__REACT_REFRESH_VERSION_RUNTIME = '0.14.2';
 Refresh.injectIntoGlobalHook(window);
 window.$RefreshReg$ = function() {};
@@ -164,11 +164,11 @@ window.addEventListener('parcelhmraccept', ()=>{
     ErrorOverlay.dismissRuntimeErrors();
 });
 
-},{"91753c7f54f2857e":"7GBfa","b224bd69b3973d71":"5cIr8"}],"7GBfa":[function(require,module,exports,__globalThis) {
+},{"c9f8b3c0d1fe9dab":"kgM6B","3dad88c23728e6e3":"lAAnz"}],"kgM6B":[function(require,module,exports,__globalThis) {
 'use strict';
-module.exports = require("2031a7b6a954c38");
+module.exports = require("f9c4c5878aef7b6a");
 
-},{"2031a7b6a954c38":"3jU6R"}],"3jU6R":[function(require,module,exports,__globalThis) {
+},{"f9c4c5878aef7b6a":"dEa1Y"}],"dEa1Y":[function(require,module,exports,__globalThis) {
 /**
  * @license React
  * react-refresh-runtime.development.js
@@ -609,8 +609,8 @@ module.exports = require("2031a7b6a954c38");
     exports.setSignature = setSignature;
 })();
 
-},{}],"5cIr8":[function(require,module,exports,__globalThis) {
-var process = require("1bf9926b731937f");
+},{}],"lAAnz":[function(require,module,exports,__globalThis) {
+var process = require("1a399c53a598042c");
 !function(e, t) {
     module.exports = t();
 }(window, function() {
@@ -2340,7 +2340,7 @@ var process = require("1bf9926b731937f");
     ]);
 });
 
-},{"1bf9926b731937f":"8MGn2"}],"8MGn2":[function(require,module,exports,__globalThis) {
+},{"1a399c53a598042c":"5ZBec"}],"5ZBec":[function(require,module,exports,__globalThis) {
 // shim for using process in browser
 var process = module.exports = {};
 // cached from whatever global is present so that test runners that stub it
@@ -2485,7 +2485,7 @@ process.umask = function() {
     return 0;
 };
 
-},{}],"5pYhT":[function(require,module,exports,__globalThis) {
+},{}],"gNIQx":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -2941,11 +2941,31 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 },{}],"adjPd":[function(require,module,exports,__globalThis) {
 var _three = require("three");
 var _trackballControls = require("three/examples/jsm/controls/TrackballControls");
+//import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+var _fontLoaderJs = require("three/examples/jsm/loaders/FontLoader.js");
+var _textGeometryJs = require("three/examples/jsm/geometries/TextGeometry.js");
+//import WebGL from 'three/addons/capabilities/WebGL.js';
+// WebGL Compatibility Check
+/*
+if (WebGL.isWebGL2Available()) {
+  animate();
+} else {
+  const warning = WebGL.getWebGL2ErrorMessage();
+  document.getElementById('container').appendChild(warning);
+}
+*/ // Fetch sample JSON data
+fetch('testData.json').then((response)=>response.json()).then((data)=>{
+    console.log('Sample JSON Data:', data);
+}).catch((error)=>{
+    console.error('Error fetching or parsing JSON:', error);
+});
+// Set up scene, camera, and renderer
 const scene = new _three.Scene();
 const camera = new _three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new _three.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+// Create a rotating cube
 const geometry = new _three.BoxGeometry(1, 1, 1);
 const material = new _three.MeshBasicMaterial({
     color: 0x00ff00
@@ -2966,6 +2986,41 @@ window.addEventListener('resize', ()=>{
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
 });
+// Load and add text geometry
+const fontLoader = new (0, _fontLoaderJs.FontLoader)();
+fontLoader.load('fonts/helvetiker_regular.typeface.json', function(font) {
+    const textGeometry = new (0, _textGeometryJs.TextGeometry)('Hello Three.js!', {
+        font: font,
+        size: 0.5,
+        height: 0.1,
+        curveSegments: 12,
+        bevelEnabled: true,
+        bevelThickness: 0.02,
+        bevelSize: 0.02,
+        bevelOffset: 0,
+        bevelSegments: 5
+    });
+    const textMaterial = new _three.MeshBasicMaterial({
+        color: 0xffffff
+    });
+    const textMesh = new _three.Mesh(textGeometry, textMaterial);
+    textMesh.position.set(-1, 1, 0);
+    scene.add(textMesh);
+});
+// Load a 3D GLTF model
+/*
+const loader = new GLTFLoader();
+loader.load(
+  'path/to/model.glb',
+  function (gltf) {
+    scene.add(gltf.scene);
+  },
+  undefined,
+  function (error) {
+    console.error('Error loading model:', error);
+  }
+);
+*/ // Animation loop
 function animate() {
     requestAnimationFrame(animate);
     cube.rotation.x += 0.01;
@@ -2975,7 +3030,7 @@ function animate() {
 }
 animate();
 
-},{"three":"bJgzF","three/examples/jsm/controls/TrackballControls":"3Xp3e"}],"bJgzF":[function(require,module,exports,__globalThis) {
+},{"three":"9wmof","three/examples/jsm/controls/TrackballControls":"huwnl","three/examples/jsm/loaders/FontLoader.js":"dYPt1","three/examples/jsm/geometries/TextGeometry.js":"39NOQ"}],"9wmof":[function(require,module,exports,__globalThis) {
 /**
  * @license
  * Copyright 2010-2025 Three.js Authors
@@ -13257,7 +13312,7 @@ class WebGLRenderer {
     }
 }
 
-},{"./three.core.js":"bKI2B","@parcel/transformer-js/src/esmodule-helpers.js":"eSpH7"}],"bKI2B":[function(require,module,exports,__globalThis) {
+},{"./three.core.js":"kb9Rq","@parcel/transformer-js/src/esmodule-helpers.js":"41DeW"}],"kb9Rq":[function(require,module,exports,__globalThis) {
 /**
  * @license
  * Copyright 2010-2025 Three.js Authors
@@ -35366,7 +35421,7 @@ if (typeof window !== 'undefined') {
     else window.__THREE__ = REVISION;
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"eSpH7"}],"eSpH7":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"41DeW"}],"41DeW":[function(require,module,exports,__globalThis) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -35396,7 +35451,7 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"3Xp3e":[function(require,module,exports,__globalThis) {
+},{}],"huwnl":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "TrackballControls", ()=>TrackballControls);
@@ -35875,6 +35930,149 @@ function onTouchEnd(event) {
     this.dispatchEvent(_endEvent);
 }
 
-},{"three":"bJgzF","@parcel/transformer-js/src/esmodule-helpers.js":"eSpH7"}]},["4ZF0U","5pYhT","adjPd"], "adjPd", "parcelRequire94c2")
+},{"three":"9wmof","@parcel/transformer-js/src/esmodule-helpers.js":"41DeW"}],"dYPt1":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "FontLoader", ()=>FontLoader);
+parcelHelpers.export(exports, "Font", ()=>Font);
+var _three = require("three");
+class FontLoader extends (0, _three.Loader) {
+    constructor(manager){
+        super(manager);
+    }
+    load(url, onLoad, onProgress, onError) {
+        const scope = this;
+        const loader = new (0, _three.FileLoader)(this.manager);
+        loader.setPath(this.path);
+        loader.setRequestHeader(this.requestHeader);
+        loader.setWithCredentials(this.withCredentials);
+        loader.load(url, function(text) {
+            const font = scope.parse(JSON.parse(text));
+            if (onLoad) onLoad(font);
+        }, onProgress, onError);
+    }
+    parse(json) {
+        return new Font(json);
+    }
+}
+//
+class Font {
+    constructor(data){
+        this.isFont = true;
+        this.type = 'Font';
+        this.data = data;
+    }
+    generateShapes(text, size = 100) {
+        const shapes = [];
+        const paths = createPaths(text, size, this.data);
+        for(let p = 0, pl = paths.length; p < pl; p++)shapes.push(...paths[p].toShapes());
+        return shapes;
+    }
+}
+function createPaths(text, size, data) {
+    const chars = Array.from(text);
+    const scale = size / data.resolution;
+    const line_height = (data.boundingBox.yMax - data.boundingBox.yMin + data.underlineThickness) * scale;
+    const paths = [];
+    let offsetX = 0, offsetY = 0;
+    for(let i = 0; i < chars.length; i++){
+        const char = chars[i];
+        if (char === '\n') {
+            offsetX = 0;
+            offsetY -= line_height;
+        } else {
+            const ret = createPath(char, scale, offsetX, offsetY, data);
+            offsetX += ret.offsetX;
+            paths.push(ret.path);
+        }
+    }
+    return paths;
+}
+function createPath(char, scale, offsetX, offsetY, data) {
+    const glyph = data.glyphs[char] || data.glyphs['?'];
+    if (!glyph) {
+        console.error('THREE.Font: character "' + char + '" does not exists in font family ' + data.familyName + '.');
+        return;
+    }
+    const path = new (0, _three.ShapePath)();
+    let x, y, cpx, cpy, cpx1, cpy1, cpx2, cpy2;
+    if (glyph.o) {
+        const outline = glyph._cachedOutline || (glyph._cachedOutline = glyph.o.split(' '));
+        for(let i = 0, l = outline.length; i < l;){
+            const action = outline[i++];
+            switch(action){
+                case 'm':
+                    x = outline[i++] * scale + offsetX;
+                    y = outline[i++] * scale + offsetY;
+                    path.moveTo(x, y);
+                    break;
+                case 'l':
+                    x = outline[i++] * scale + offsetX;
+                    y = outline[i++] * scale + offsetY;
+                    path.lineTo(x, y);
+                    break;
+                case 'q':
+                    cpx = outline[i++] * scale + offsetX;
+                    cpy = outline[i++] * scale + offsetY;
+                    cpx1 = outline[i++] * scale + offsetX;
+                    cpy1 = outline[i++] * scale + offsetY;
+                    path.quadraticCurveTo(cpx1, cpy1, cpx, cpy);
+                    break;
+                case 'b':
+                    cpx = outline[i++] * scale + offsetX;
+                    cpy = outline[i++] * scale + offsetY;
+                    cpx1 = outline[i++] * scale + offsetX;
+                    cpy1 = outline[i++] * scale + offsetY;
+                    cpx2 = outline[i++] * scale + offsetX;
+                    cpy2 = outline[i++] * scale + offsetY;
+                    path.bezierCurveTo(cpx1, cpy1, cpx2, cpy2, cpx, cpy);
+                    break;
+            }
+        }
+    }
+    return {
+        offsetX: glyph.ha * scale,
+        path: path
+    };
+}
+
+},{"three":"9wmof","@parcel/transformer-js/src/esmodule-helpers.js":"41DeW"}],"39NOQ":[function(require,module,exports,__globalThis) {
+/**
+ * Text = 3D Text
+ *
+ * parameters = {
+ *  font: <THREE.Font>, // font
+ *
+ *  size: <float>, // size of the text
+ *  depth: <float>, // thickness to extrude text
+ *  curveSegments: <int>, // number of points on the curves
+ *
+ *  bevelEnabled: <bool>, // turn on bevel
+ *  bevelThickness: <float>, // how deep into text bevel goes
+ *  bevelSize: <float>, // how far from text outline (including bevelOffset) is bevel
+ *  bevelOffset: <float> // how far from text outline does bevel start
+ * }
+ */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "TextGeometry", ()=>TextGeometry);
+var _three = require("three");
+class TextGeometry extends (0, _three.ExtrudeGeometry) {
+    constructor(text, parameters = {}){
+        const font = parameters.font;
+        if (font === undefined) super(); // generate default extrude geometry
+        else {
+            const shapes = font.generateShapes(text, parameters.size);
+            // defaults
+            if (parameters.depth === undefined) parameters.depth = 50;
+            if (parameters.bevelThickness === undefined) parameters.bevelThickness = 10;
+            if (parameters.bevelSize === undefined) parameters.bevelSize = 8;
+            if (parameters.bevelEnabled === undefined) parameters.bevelEnabled = false;
+            super(shapes, parameters);
+        }
+        this.type = 'TextGeometry';
+    }
+}
+
+},{"three":"9wmof","@parcel/transformer-js/src/esmodule-helpers.js":"41DeW"}]},["bVLoF","gNIQx","adjPd"], "adjPd", "parcelRequire94c2")
 
 //# sourceMappingURL=index.63aff760.js.map

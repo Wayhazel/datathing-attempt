@@ -1,0 +1,16 @@
+15
+63C:\Users\acatg\datathing-attempt\datathing-attempt\package.json133847403825221867 0
+65C:\Users\acatg\datathing-attempt\datathing-attempt\pnpm-lock.yaml133847403825276829 0
+55C:\Users\acatg\datathing-attempt\datathing-attempt\dist133847403825079478 1
+73C:\Users\acatg\datathing-attempt\datathing-attempt\dist\index.63aff760.js133847403823897929 0
+61C:\Users\acatg\datathing-attempt\datathing-attempt\.gitignore133847403823108948 0
+62C:\Users\acatg\datathing-attempt\datathing-attempt\config.json133847403823761609 0
+58C:\Users\acatg\datathing-attempt\datathing-attempt\main.js133847467866348353 0
+59C:\Users\acatg\datathing-attempt\datathing-attempt\controls133847403823792578 1
+61C:\Users\acatg\datathing-attempt\datathing-attempt\index.html133847424795448629 0
+58C:\Users\acatg\datathing-attempt\datathing-attempt\LICENSE133847403823624394 0
+61C:\Users\acatg\datathing-attempt\datathing-attempt\styles.css133847403825344279 0
+77C:\Users\acatg\datathing-attempt\datathing-attempt\dist\index.63aff760.js.map133847403824087570 0
+64C:\Users\acatg\datathing-attempt\datathing-attempt\testData.json133847444445311955 0
+66C:\Users\acatg\datathing-attempt\datathing-attempt\dist\index.html133847403825079478 0
+70C:\Users\acatg\datathing-attempt\datathing-attempt\controls\control.js133847403823792578 0
