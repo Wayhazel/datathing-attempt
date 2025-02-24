@@ -38,7 +38,7 @@ function getBoxMaterial(row, col) {
   return new THREE.MeshPhongMaterial({ 
     color: color, 
     transparent: true, // Enable transparency
-    opacity: 0.3 // Set the desired opacity (0.0 to 1.0)
+    opacity: 0.7 // Set the desired opacity (0.0 to 1.0)
   });
 }
 
@@ -106,7 +106,7 @@ const textureLoader = new THREE.TextureLoader();
 textureLoader.load(
   'api/los_angeles_map.png',
   function (texture) {
-    const mapGeometry = new THREE.PlaneGeometry((rows) + 2, (rows + moveDown) + 1.6);
+    const mapGeometry = new THREE.PlaneGeometry((rows) + 2 * rows/10, (rows + moveDown) + 1.6 * cols/10);
     const mapMaterial = new THREE.MeshBasicMaterial({
       map: texture
     });
@@ -114,7 +114,7 @@ textureLoader.load(
     
     // Rotate plane to be horizontal and position it slightly below the boxes
     mapPlane.rotation.x = -Math.PI / 2;
-    mapPlane.position.set(-0.45, -0.01, 0.95);
+    mapPlane.position.set(-0.45 * rows/10, -0.01, 1.55 * cols/10);
     
     scene.add(mapPlane);
   }
