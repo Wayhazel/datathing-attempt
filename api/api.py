@@ -22,17 +22,17 @@ async def query(
     limit: int = 10,
     columns: str = None,
     filter_col: str = None,
-    filter_value: str = None
+    filter_value: str = None,
 ):
     query = df
-    
+
     if columns:
         col_list = [col.strip() for col in columns.split(",")]
         query = query.select(col_list)
-    
+
     if filter_col and filter_value:
         query = query.filter(pl.col(filter_col) == filter_value)
-    
+
     query = query.limit(limit)
 
     return {"message": query.collect().to_dict(as_series=False)}
@@ -45,7 +45,6 @@ async def height(lamin: float, lamax: float, lomin: float, lomax: float):
         query.filter(
             (pl.col("LAT").is_between(lamin, lamax))
             & (pl.col("LON").is_between(lomin, lomax))
-        )
-        .collect()
+        ).collect()
     )
-    return result
+    return {"data": result}
